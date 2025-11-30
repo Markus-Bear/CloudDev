@@ -15,7 +15,11 @@ def byebye():
 
 @app.get("/whoops")
 def omg():
-    return 1 / 0 # This will raise a ZeroDivisionError
+    first = 10
+    second = 50
 
-if __name__== "__main__":
+    return str(first / second)
+
+
+if __name__ == "__main__":
     app.run(debug=True)
