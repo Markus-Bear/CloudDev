@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -18,7 +18,10 @@ def omg():
     first = 10
     second = 50
 
-    return str(first / second)
+    return render_template(
+        "whoops.html",
+        result=first / second,
+    )
 
 
 if __name__ == "__main__":
