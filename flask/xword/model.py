@@ -1,15 +1,14 @@
-import DBcm # type: ignore
+import DBcm  # type: ignore
 
 import platform
 
 if "aws" in platform.uname().release:
-
-    creds ={
+    creds = {
         "user": "c00166672",
         "password": "xwordpasswd",
         "host": "c00166672.mysql.pythonanywhere-services.com",
         "database": "c00166672$default",
-    }    
+    }
 else:
     creds = {
         "user": "xworduser",
@@ -17,8 +16,6 @@ else:
         "host": "localhost",
         "database": "xwordDB",
     }
-
-
 
 
 def add_to_database(p, m):
@@ -29,7 +26,7 @@ def add_to_database(p, m):
          (%s, %s)       
     """
     with DBcm.UseDatabase(creds) as db:
-        db.execute(SQL,(p, m))
+        db.execute(SQL, (p, m))
 
 
 def get_log_data(column="ts"):

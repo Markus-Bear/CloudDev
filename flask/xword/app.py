@@ -5,6 +5,7 @@ import xword
 
 app = Flask(__name__)
 
+
 @app.get("/")
 def opening_page():
     data = model.get_log_data()
@@ -14,36 +15,22 @@ def opening_page():
         data_table=data,
     )
 
-@app.get("/bytimestamp")
-def order_by_timestamp():
-    data = model.get_log_data("ts")
+
+@app.get("/byorder/<what>")
+def order_by(what):
+    data = model.get_log_data(what)
     return render_template(
         "ordered.html",
         data_table=data,
     )
 
-@app.get("/bypattern")
-def order_by_pattern():
-    data = model.get_log_data("pattern")
-    return render_template(
-        "ordered.html",
-        data_table=data,
-    )
-
-@app.get("/bymatches")
-def order_by_matches():
-    data = model.get_log_data("matches")
-    return render_template(
-        "ordered.html",
-        data_table=data,
-    )
 
 @app.post("/processpattern")
 def get_the_results():
     pat = request.form["pattern"]
     results = xword.find_possible_matches(pat)
 
-    model.add_to_database(pat, len(results)) 
+    model.add_to_database(pat, len(results))
 
     return " ".join(results)
 
