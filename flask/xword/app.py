@@ -1,32 +1,40 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+
+import model
+import xword
 
 app = Flask(__name__)
 
-
-@app.get("/hello")
-def hello():
+@app.get("/")
+def opening_page():
     return render_template(
-        "hello.html",
-        the_title="This is HELLO",
+        "pattern.html",
+        the_title="Welcome to Xword on the Web",
     )
 
 
-@app.get("/bye")
-def byebye():
-    return "Goodbye from the really smallest Flask webapp there is!"
 
+@app.post("/processpattern")
+def get_the_results():
+    pat = request.form["pattern"]
+    results = xword.find_possible_matches(pat)
 
-@app.get("/whoops")
-def omg():
-    first = 10
-    second = 50
+    model.add_to_database(pat, len(results)) 
 
     return render_template(
-        "whoops.html",
-        result=first / second,
-        the_title="The Results are in!",
+        "results.html",
+        the_title="Possible matches",
+        the_results = results,
     )
 
+@app.get("/displayhistory")
+def show_the_log():
+    data = model.get_log_data()
+    return render_template(
+        "history.html",
+        the_title="Log Entries",
+        data_table=data,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
