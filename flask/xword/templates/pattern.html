@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block the_body %}
+
+    <h1>{{the_title}}</h1>
+    <form action="/processpattern" method="POST">
+        Pattern: <input type="text" name="pattern"><br>
+        <input type="submit" value="Do it!">
+    </form>
+
+    <p>Click <a href="/displayhistory">here</a> to see the log history</p>
+
+
+{% endblock %}
